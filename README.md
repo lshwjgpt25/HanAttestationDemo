@@ -1,6 +1,6 @@
-# GarfieldHan's Attestation Detect Demo
+# GarfieldHan's TrickyStore Detect Demo
 
-A type of TrickyStore's detection. **Android S or above is required**.
+A possible demo of detecting TrickyStore. **Android S or above with hasSystemFeature(PackageManager.FEATURE_KEYSTORE_APP_ATTEST_KEY) is required**.
 
 ## Acknowledgement
 
