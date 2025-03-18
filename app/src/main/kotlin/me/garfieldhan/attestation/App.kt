@@ -1,4 +1,4 @@
-package dev.sanmer.template
+package me.garfieldhan.attestation
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

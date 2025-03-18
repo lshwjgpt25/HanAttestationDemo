@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.api.ApkVariantOutputImpl
+import com.android.build.gradle.tasks.PackageAndroidArtifact
 import java.time.Instant
 
 plugins {
@@ -7,27 +8,21 @@ plugins {
     alias(libs.plugins.self.hilt)
     alias(libs.plugins.self.room)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.lsplugin.resopt)
 }
 
-val baseVersionName = "0.0.1"
+val baseVersionName = "1"
 val devVersion = exec("git tag --contains HEAD").isEmpty()
 val commitShaSuffix = commitSha.let { ".${it.substring(0, 7)}" }
 val devSuffix = if (devVersion) ".dev" else ""
 
 android {
-    namespace = "dev.sanmer.template"
+    namespace = "me.garfieldhan.attestation"
 
     defaultConfig {
         applicationId = namespace
         versionName = "${baseVersionName}${commitShaSuffix}${devSuffix}"
         versionCode = commitCount
-
-        ndk.abiFilters += listOf("arm64-v8a", "x86_64")
-    }
-
-    @Suppress("UnstableApiUsage")
-    androidResources {
-        localeFilters += listOf("en")
     }
 
     val releaseSigning = if (project.hasReleaseKeyStore) {
@@ -64,21 +59,25 @@ android {
         buildConfig = true
     }
 
-    packaging.resources.excludes += setOf(
-        "META-INF/**",
-        "kotlin/**",
-        "**.bin",
-        "**.properties"
-    )
-
+    packaging.resources.excludes += "**"
     dependenciesInfo.includeInApk = false
 
     applicationVariants.configureEach {
         outputs.configureEach {
             if (this is ApkVariantOutputImpl) {
-                outputFileName = "Template-${versionName}-${versionCode}-${name}.apk"
+                outputFileName = "HanAttestationDetectDemo-${versionName}-${versionCode}-${name}.apk"
             }
         }
+    }
+
+    // https://stackoverflow.com/a/77745844
+    tasks.withType<PackageAndroidArtifact> {
+        doFirst { appMetadata.asFile.orNull?.writeText("") }
+    }
+
+    lint {
+        abortOnError = false
+        checkReleaseBuilds = false
     }
 }
 
@@ -100,4 +99,5 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization.protobuf)
     implementation(libs.timber)
+    implementation(libs.org.bouncycastle.bcprov)
 }

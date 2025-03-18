@@ -18,5 +18,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Template"
+rootProject.name = "HanAttestationDemo"
 include(":app")

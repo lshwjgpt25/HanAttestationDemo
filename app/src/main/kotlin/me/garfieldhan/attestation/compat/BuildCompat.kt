@@ -1,4 +1,4 @@
-package dev.sanmer.template.compat
+package me.garfieldhan.attestation.compat
 
 import android.os.Build
 import androidx.annotation.ChecksSdkIntAtLeast

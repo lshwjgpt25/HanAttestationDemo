@@ -1,4 +1,4 @@
-package dev.sanmer.template.ui.theme
+package me.garfieldhan.attestation.ui.theme
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
